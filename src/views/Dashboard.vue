@@ -5,7 +5,7 @@
   <div class="dashboard-container">
     <div class="header">
       <h1>Quản lý cửa hàng</h1>
-
+        
     </div>
   </div>
 </template>

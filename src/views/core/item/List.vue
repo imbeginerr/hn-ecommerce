@@ -1,61 +1,61 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { getCoreUsers, createCoreUser, deleteCoreUser } from '#/apis/core/user';
+import { getItemProducts, createItemProduct, deleteItemProduct } from '#/apis/item/product';
 
 // Dữ liệu cho bảng
-const users = ref([]);
+const Items = ref([]);
 const loading = ref(false);
 
 // Dữ liệu cho form
 const formData = ref({
   name: '',
-  password: ''
+  decription: ''
 });
 
-// Lấy danh sách người dùng khi component được mounted
-const fetchUsers = async () => {
+// Lấy danh sách item khi component được mounted
+const fetchItems = async () => {
   try {
     loading.value = true;
-    const response = await getCoreUsers();
-    users.value = response.result; // Giả định API trả về mảng trong response.data
+    const response = await getItemProducts();
+    Items.value = response.result; // Giả định API trả về mảng trong response.data
   } catch (error) {
-    console.error('Lỗi khi lấy danh sách người dùng:', error);
+    console.error('Lỗi khi lấy danh sách item:', error);
   } finally {
     loading.value = false;
   }
 };
 
-// Thêm người dùng mới
-const addUser = async () => {
+// Thêm item mới
+const addItem = async () => {
   try {
-    await createCoreUser(formData.value);
+    await createItemProduct(formData.value);
     // Reset form sau khi thêm thành công
-    formData.value = { name: '', email: '', password: '' };
-    // Tải lại danh sách người dùng
-    await fetchUsers();
-    alert('Thêm người dùng thành công!');
+    formData.value = { name: '', email: '', decription: '' };
+    // Tải lại danh sách item
+    await fetchItems();
+    alert('Thêm item thành công!');
   } catch (error) {
-    console.error('Lỗi khi thêm người dùng:', error);
-    alert('Lỗi khi thêm người dùng!');
+    console.error('Lỗi khi thêm item:', error);
+    alert('Lỗi khi thêm item!');
   }
 };
 
-// Xóa người dùng
-const deleteUser = async (id) => {
+// Xóa item
+const deleteItem = async (id) => {
 
   try {
-    await deleteCoreUser(id);
-    // Tải lại danh sách người dùng
-    await fetchUsers();
-    alert('Xóa người dùng thành công!');
+    await deleteItemProduct(id);
+    // Tải lại danh sách item
+    await fetchItems();
+    alert('Xóa item thành công!');
   } catch (error) {
-    console.error('Lỗi khi xóa người dùng:', error);
-    alert('Lỗi khi xóa người dùng!');
+    console.error('Lỗi khi xóa item:', error);
+    alert('Lỗi khi xóa item!');
   }
 };
 
 // Gọi API khi component được mounted
-onMounted(fetchUsers);
+onMounted(fetchItems);
 </script>
 
 <template>
@@ -64,45 +64,45 @@ onMounted(fetchUsers);
       <h1>Quản lý cửa hàng</h1>
     </div>
 
-    <!-- Form thêm người dùng -->
+    <!-- Form thêm item -->
     <div class="form-container">
-      <h2>Thêm người dùng mới</h2>
-      <form @submit.prevent="addUser" class="user-form">
+      <h2>Thêm item mới</h2>
+      <form @submit.prevent="addItem" class="Item-form">
         <div class="form-group">
           <label for="name">Tên:</label>
           <input v-model="formData.name" type="text" id="name" placeholder="Nhập tên" required />
         </div>
 
         <div class="form-group">
-          <label for="password">Mật khẩu:</label>
-          <input v-model="formData.password" type="password" id="password" placeholder="Nhập mật khẩu" required />
+          <label for="decription">Mô tả:</label>
+          <input v-model="formData.decription" type="decription" id="decription" placeholder="Nhập mô tả" required />
         </div>
-        <button type="submit" class="submit-btn">Thêm người dùng</button>
+        <button type="submit" class="submit-btn">Thêm item</button>
       </form>
     </div>
 
-    <!-- Bảng hiển thị danh sách người dùng -->
+    <!-- Bảng hiển thị danh sách item -->
     <div class="table-container">
-      <h2>Danh sách người dùng</h2>
+      <h2>Danh sách item</h2>
       <div v-if="loading" class="loading">Đang tải...</div>
-      <table v-else class="user-table">
+      <table v-else class="Item-table">
         <thead>
           <tr>
             <th>ID</th>
             <th>Tên</th>
-            <th>Hành động</th>
+            <th>Mô tả</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in users" :key="user.id">
-            <td>{{ user.id }}</td>
-            <td>{{ user.username }}</td>
+          <tr v-for="Item in Items" :key="Item.id">
+            <td>{{ Item.name }}</td>
+            <td>{{ Item.decription }}</td>
             <td>
-              <button class="delete-btn" @click="deleteUser(user.id)">Xóa</button>
+              <button class="delete-btn" @click="deleteItem(Item.id)">Xóa</button>
             </td>
           </tr>
-          <tr v-if="users.length === 0">
-            <td colspan="4">Không có người dùng nào.</td>
+          <tr v-if="Items.length === 0">
+            <td colspan="4">Không có item nào.</td>
           </tr>
         </tbody>
       </table>
@@ -130,7 +130,7 @@ onMounted(fetchUsers);
   margin-bottom: 40px;
 }
 
-.user-form {
+.Item-form {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -172,21 +172,21 @@ onMounted(fetchUsers);
   margin-top: 20px;
 }
 
-.user-table {
+.Item-table {
   width: 100%;
   border-collapse: collapse;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.user-table th,
-.user-table td {
+.Item-table th,
+.Item-table td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
-.user-table th {
+.Item-table th {
   background-color: #f8f9fa;
   font-weight: bold;
 }

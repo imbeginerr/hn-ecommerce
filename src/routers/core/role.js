@@ -1,4 +1,4 @@
-/** When your routing table is too long, you can split it into small roles. **/
+/** When your routing table is too long, you can split it into small users. **/
 
 export default {
   path: 'role',
@@ -12,35 +12,20 @@ export default {
       path: 'list',
       name: 'CoreRoleList',
       meta: {
-        title: 'Danh sách quyền',
+        title: 'Danh sách Quyền',
         activeMenu: '/core/role',
         component: 'core/role/list',
+
         breadcrumb: false
       },
+      component: () => import('#/views/core/role/list.vue'),
       props: {
         backRouter: 'CoreRoleList',
         formTitle: 'Quyền',
         formType: 'list'
       },
       hidden: true
-    },
-    {
-      path: 'create',
-      name: 'CoreRoleCreate',
-      meta: {
-        title: 'Thêm mới quyền',
-        activeMenu: '/core/role',
-        component: 'core/role/create',
-        breadcrumb: false
-      },
-      props: {
-        backRouter: 'CoreRoleList',
-        formTitle: 'Quyền',
-        formType: 'create'
-      },
-      hidden: true
     }
-
   ]
 }
 

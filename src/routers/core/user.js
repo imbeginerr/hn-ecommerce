@@ -15,28 +15,14 @@ export default {
         title: 'Danh sách tài khoản',
         activeMenu: '/core/user',
         component: 'core/user/list',
+
         breadcrumb: false
       },
+      component: () => import('#/views/core/user/list.vue'),
       props: {
         backRouter: 'CoreUserList',
         formTitle: 'Tài khoản',
         formType: 'list'
-      },
-      hidden: true
-    },
-    {
-      path: 'create',
-      name: 'CoreUserCreate',
-      meta: {
-        title: 'Thêm mới tài khoản',
-        activeMenu: '/core/user',
-        component: 'core/user/create',
-        breadcrumb: false
-      },
-      props: {
-        backRouter: 'CoreUserList',
-        formTitle: 'Tài khoản',
-        formType: 'create'
       },
       hidden: true
     }
