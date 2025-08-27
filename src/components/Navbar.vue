@@ -4,7 +4,6 @@
       <div class="flex-grow-1 w-100">
         <div class="p-3">
           <b-nav-item :active="activeMenu === 'Dashboard'" :to="getFullPath({ path: '/' }, { path: 'dashboard' })">
-            <b-icon icon="house" class="mr-2" />
             {{ getRouteTitle('Dashboard') }}
           </b-nav-item>
           <b-nav-item-dropdown v-for="route in filteredMainRoutes" :key="route.name" :text="route.meta.title"
@@ -18,7 +17,6 @@
       </div>
       <div class="logout-container">
         <b-nav-item class="logout-item" @click="logout">
-          <b-icon icon="box-arrow-right" class="mr-2" />
           Đăng xuất
         </b-nav-item>
       </div>
@@ -69,7 +67,6 @@ const getFullPath = (route, child) => {
   // Handle direct children
   fullPath = `${route.path}/${child.path}`;
   fullPath = fullPath.replace(/\/+/g, '/'); // Remove duplicate slashes
-  console.log('Full path for', child.name, ':', fullPath);
   return fullPath;
 };
 
@@ -143,9 +140,6 @@ const logout = () => {
   color: #ffd04b;
 }
 
-.b-icon {
-  margin-right: 8px;
-}
 
 .dropdown-menu {
   background-color: #001529;
